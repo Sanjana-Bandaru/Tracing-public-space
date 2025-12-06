@@ -1,0 +1,6 @@
+*.psd
+*.ai
+*.pdf
+node_modules/
+.DS_Store
+Thumbs.db

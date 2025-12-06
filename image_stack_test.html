@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Stack Scrollytelling Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* --- Section 1 Styles --- */
+        #stack-section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .stack-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        #img1 {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        #img2 {
+            z-index: 2;
+        }
+
+        #img3 {
+            z-index: 3;
+        }
+
+        /* --- Section 2 Styles --- */
+        #section2 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s2-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        /* --- Section 3 Styles --- */
+        #section3 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s3-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        #s3f0 {
+            z-index: 1;
+        }
+
+        #s3f1 {
+            z-index: 2;
+        }
+
+        #s3f2 {
+            z-index: 3;
+        }
+
+        #s3f3 {
+            z-index: 4;
+        }
+
+        #s3f4 {
+            z-index: 5;
+        }
+
+        #s3f5 {
+            z-index: 6;
+        }
+
+        /* --- Section 4 Styles --- */
+        #section4 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s4-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        /* Z-indices for Section 4 */
+        #s4f0 {
+            z-index: 1;
+        }
+
+        #s4f1 {
+            z-index: 2;
+        }
+
+        #s4f2 {
+            z-index: 3;
+        }
+
+        #s4f3 {
+            z-index: 4;
+        }
+
+        #s4f4 {
+            z-index: 5;
+        }
+
+        #s4f5 {
+            z-index: 6;
+        }
+
+        #s4f6 {
+            z-index: 7;
+        }
+
+        #s4f7 {
+            z-index: 8;
+        }
+
+        #s4f8 {
+            z-index: 9;
+        }
+
+        #s4f9 {
+            z-index: 10;
+        }
+
+        #s4f10 {
+            z-index: 11;
+        }
+
+        #s4f11 {
+            z-index: 12;
+        }
+
+        #s4f12 {
+            z-index: 13;
+        }
+
+        #s4f13 {
+            z-index: 14;
+        }
+
+        /* --- Section 5 Styles --- */
+        #section5 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s5-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        /* Z-indices for Section 5 */
+        #s5f0 {
+            z-index: 1;
+        }
+
+        #s5f1 {
+            z-index: 2;
+        }
+
+        #s5f2 {
+            z-index: 3;
+        }
+
+        #s5f3 {
+            z-index: 4;
+        }
+
+        #s5f4 {
+            z-index: 5;
+        }
+
+        #s5f5 {
+            z-index: 6;
+        }
+
+        #s5f6 {
+            z-index: 7;
+        }
+
+        #s5f7 {
+            z-index: 8;
+        }
+
+        #s5f8 {
+            z-index: 9;
+        }
+
+        #s5f9 {
+            z-index: 10;
+        }
+
+        #s5f10 {
+            z-index: 11;
+        }
+
+        /* --- Section 6 Styles --- */
+        #section6 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s6-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        #s6f0 {
+            z-index: 1;
+        }
+
+        #s6f1 {
+            z-index: 2;
+        }
+
+        #s6f2 {
+            z-index: 3;
+        }
+
+        /* --- Section 7 Styles --- */
+        #section7 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s7-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        /* --- Section 8 Styles --- */
+        #section8 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s8-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* --- Section 9 Styles --- */
+        #section9 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s9-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+
+        /* --- Section 10 Styles --- */
+        #section10 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s10-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* --- Section 11 Styles (New - s9.png) --- */
+        #section11 {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .s11-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Section 1: Stack -->
+    <section id="stack-section">
+        <div class="image-container">
+            <img id="img1" class="stack-img" src="s1f1.png" alt="Layer 1">
+            <img id="img2" class="stack-img" src="s1f2.png" alt="Layer 2">
+            <img id="img3" class="stack-img" src="s1f3.png" alt="Layer 3">
+        </div>
+    </section>
+
+    <!-- Section 2: Sequence -->
+    <section id="section2">
+        <img id="s2f1" class="s2-img" src="s2f1.png" alt="Section 2 Image 1">
+        <img id="s2f2" class="s2-img" src="s2f2.png" alt="Section 2 Image 2">
+    </section>
+
+    <!-- Section 3: 6-Step Sequence -->
+    <section id="section3">
+        <img id="s3f0" class="s3-img" src="s3f0.png" alt="Section 3 Frame 0">
+        <img id="s3f1" class="s3-img" src="s3f1.png" alt="Section 3 Frame 1">
+        <img id="s3f2" class="s3-img" src="s3f2.png" alt="Section 3 Frame 2">
+        <img id="s3f3" class="s3-img" src="s3f3.png" alt="Section 3 Frame 3">
+        <img id="s3f4" class="s3-img" src="s3f4.png" alt="Section 3 Frame 4">
+        <img id="s3f5" class="s3-img" src="s3f5.png" alt="Section 3 Frame 5">
+    </section>
+
+    <!-- Section 4: Long Sequence -->
+    <section id="section4">
+        <img id="s4f0" class="s4-img" src="s4f0.png" alt="Section 4 Frame 0">
+        <img id="s4f1" class="s4-img" src="s4f1.png" alt="Section 4 Frame 1">
+        <img id="s4f2" class="s4-img" src="s4f2.png" alt="Section 4 Frame 2">
+        <img id="s4f3" class="s4-img" src="s4f3.png" alt="Section 4 Frame 3">
+        <img id="s4f4" class="s4-img" src="s4f4.png" alt="Section 4 Frame 4">
+        <img id="s4f5" class="s4-img" src="s4f5.png" alt="Section 4 Frame 5">
+        <img id="s4f6" class="s4-img" src="s4f6.png" alt="Section 4 Frame 6">
+        <img id="s4f7" class="s4-img" src="s4f7.png" alt="Section 4 Frame 7">
+        <img id="s4f8" class="s4-img" src="s4f8.png" alt="Section 4 Frame 8">
+        <img id="s4f9" class="s4-img" src="s4f9.png" alt="Section 4 Frame 9">
+        <img id="s4f10" class="s4-img" src="s4f10.png" alt="Section 4 Frame 10">
+        <img id="s4f11" class="s4-img" src="s4f11.png" alt="Section 4 Frame 11">
+        <img id="s4f12" class="s4-img" src="s4f12.png" alt="Section 4 Frame 12">
+        <img id="s4f13" class="s4-img" src="s4f13.png" alt="Section 4 Frame 13">
+    </section>
+
+    <!-- Section 5: Another Long Sequence -->
+    <section id="section5">
+        <img id="s5f0" class="s5-img" src="s5f0.png" alt="Section 5 Frame 0">
+        <img id="s5f1" class="s5-img" src="s5f1.png" alt="Section 5 Frame 1">
+        <img id="s5f2" class="s5-img" src="s5f2.png" alt="Section 5 Frame 2">
+        <img id="s5f3" class="s5-img" src="s5f3.png" alt="Section 5 Frame 3">
+        <img id="s5f4" class="s5-img" src="s5f4.png" alt="Section 5 Frame 4">
+        <img id="s5f5" class="s5-img" src="s5f5.png" alt="Section 5 Frame 5">
+        <img id="s5f6" class="s5-img" src="s5f6.png" alt="Section 5 Frame 6">
+        <img id="s5f7" class="s5-img" src="s5f7.png" alt="Section 5 Frame 7">
+        <img id="s5f8" class="s5-img" src="s5f8.png" alt="Section 5 Frame 8">
+        <img id="s5f9" class="s5-img" src="s5f9.png" alt="Section 5 Frame 9">
+        <img id="s5f10" class="s5-img" src="s5f10.png" alt="Section 5 Frame 10">
+    </section>
+
+    <!-- Section 6: Sequence -->
+    <section id="section6">
+        <img id="s6f0" class="s6-img" src="s6f0.png" alt="Section 6 Frame 0">
+        <img id="s6f1" class="s6-img" src="s6f1.png" alt="Section 6 Frame 1">
+        <img id="s6f2" class="s6-img" src="s6f2.png" alt="Section 6 Frame 2">
+    </section>
+
+    <!-- Section 7: s7.png -->
+    <section id="section7">
+        <img id="s7img" class="s7-img" src="s7.png" alt="Section 7 Image">
+    </section>
+
+    <!-- Section 8: Video Timelapse -->
+    <section id="section8">
+        <video id="timelapseVideo" class="s8-video" src="Video timelapse.mp4" playsinline webkit-playsinline muted
+            preload="metadata"></video>
+    </section>
+
+    <!-- Section 9: s8.png -->
+    <section id="section9">
+        <img id="s9img" class="s9-img" src="s8.png" alt="Section 9 Image">
+    </section>
+
+    <!-- Section 10: Overlay Video -->
+    <section id="section10">
+        <video id="overlayVideo" class="s10-video" src="overlay video.mp4" playsinline webkit-playsinline muted
+            preload="metadata"></video>
+    </section>
+
+    <!-- Section 11: s9.png (New) -->
+    <section id="section11">
+        <img id="s11img" class="s11-img" src="s9.png" alt="Section 11 Image">
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Section 1 Animation ---
+        const tl1 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#stack-section",
+                start: "top top",
+                end: "+=3000",
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl1.to("#img2", { opacity: 1, duration: 1 })
+            .to("#img3", { opacity: 1, duration: 1 });
+
+
+        // --- Section 2 Animation ---
+        const tl2 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section2",
+                start: "top top",
+                end: "+=3000",
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl2.to("#s2f1", { opacity: 1, duration: 1 })
+            .fromTo("#s2f2",
+                { x: "-50%", opacity: 0 },
+                { x: "0%", opacity: 1, duration: 1 }
+            );
+
+        // --- Section 3 Animation ---
+        const tl3 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section3",
+                start: "top top",
+                end: "+=6000",
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl3.to("#s3f0", { opacity: 1, duration: 1 })
+            .to("#s3f1", { opacity: 1, duration: 1 })
+            .to("#s3f2", { opacity: 1, duration: 1 })
+            .to("#s3f3", { opacity: 1, duration: 1 })
+            .to("#s3f4", { opacity: 1, duration: 1 })
+            .to("#s3f5", { opacity: 1, duration: 1 });
+
+
+        // --- Section 4 Animation ---
+        const tl4 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section4",
+                start: "top top",
+                end: "+=7000", // Reduced from 12000 to speed up
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl4.to("#s4f0", { opacity: 1, duration: 1 })       // 1. s4f0 appears
+            .to("#s4f1", { opacity: 1, duration: 1 })       // 2. s4f1 appears
+            .to("#s4f0", { opacity: 0, duration: 1 })       // 3. s4f0 goes away
+            .to("#s4f2", { opacity: 1, duration: 1 })       // 4. s4f2 appears
+            .to("#s4f3", { opacity: 1, duration: 1 })       // 5. s4f3 appears
+            .to("#s4f4", { opacity: 1, duration: 1 })       // ...
+            .to("#s4f5", { opacity: 1, duration: 1 })
+            .to("#s4f6", { opacity: 1, duration: 1 })
+            .to("#s4f7", { opacity: 1, duration: 1 })
+            .to("#s4f8", { opacity: 1, duration: 1 })
+            .to("#s4f9", { opacity: 1, duration: 1 })
+            .to("#s4f10", { opacity: 1, duration: 1 })
+            .to("#s4f11", { opacity: 1, duration: 1 })
+            .to("#s4f12", { opacity: 1, duration: 1 })
+            .to("#s4f13", { opacity: 1, duration: 1 });
+
+
+        // --- Section 5 Animation ---
+        const tl5 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section5",
+                start: "top top",
+                end: "+=6000", // Reduced from 10000 to speed up
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl5.to("#s5f0", { opacity: 1, duration: 1 })       // 1. s5f0 appears
+            .to("#s5f1", { opacity: 1, duration: 1 })       // 2. s5f1 appears
+            .to("#s5f0", { opacity: 0, duration: 1 })       // 3. s5f0 goes away
+            .to("#s5f2", { opacity: 1, duration: 1 })       // 4. s5f2 appears
+            .to("#s5f3", { opacity: 1, duration: 1 })       // 5. s5f3 appears
+            .to("#s5f4", { opacity: 1, duration: 1 })       // ...
+            .to("#s5f5", { opacity: 1, duration: 1 })
+            .to("#s5f6", { opacity: 1, duration: 1 })
+            .to("#s5f7", { opacity: 1, duration: 1 })
+            .to("#s5f8", { opacity: 1, duration: 1 })
+            .to("#s5f9", { opacity: 1, duration: 1 })
+            .to("#s5f10", { opacity: 1, duration: 1 });
+
+        // --- Section 6 Animation ---
+        const tl6 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section6",
+                start: "top top",
+                end: "+=3000",
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl6.to("#s6f0", { opacity: 1, duration: 1 })       // 1. s6f0 appears
+            .to("#s6f1", { opacity: 1, duration: 1 })       // 2. s6f1 appears
+            .to("#s6f0", { opacity: 0, duration: 1 })       // 3. s6f0 goes away
+            .to("#s6f2", { opacity: 1, duration: 1 });      // 4. s6f2 appears
+
+
+        // --- Section 7 Animation (s7.png) ---
+        const tl7 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section7",
+                start: "top top",
+                end: "+=3000",
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl7.to("#s7img", { opacity: 1, duration: 1 });
+
+
+        // --- Section 8 Animation (Video Timelapse) ---
+        const video = document.querySelector("#timelapseVideo");
+
+        ScrollTrigger.create({
+            trigger: "#section8",
+            start: "top top",
+            end: "+=6000", // Keeps the section pinned while video plays
+            pin: true,
+            onEnter: () => video.play(),
+            onLeave: () => video.pause(),
+            onEnterBack: () => video.play(),
+            onLeaveBack: () => video.pause()
+        });
+
+        // --- Section 9 Animation (s8.png) ---
+        const tl9 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section9",
+                start: "top top",
+                end: "+=3000",
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl9.to("#s9img", { opacity: 1, duration: 1 });
+
+        // --- Section 10 Animation (Overlay Video) ---
+        const overlayVideo = document.querySelector("#overlayVideo");
+
+        ScrollTrigger.create({
+            trigger: "#section10",
+            start: "top top",
+            end: "+=6000", // Keeps the section pinned while video plays
+            pin: true,
+            onEnter: () => overlayVideo.play(),
+            onLeave: () => overlayVideo.pause(),
+            onEnterBack: () => overlayVideo.play(),
+            onLeaveBack: () => overlayVideo.pause()
+        });
+
+        // --- Section 11 Animation (s9.png) ---
+        const tl11 = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section11",
+                start: "top top",
+                end: "+=3000",
+                pin: true,
+                scrub: true,
+                anticipatePin: 1
+            }
+        });
+
+        tl11.to("#s11img", { opacity: 1, duration: 1 });
+
+    </script>
+</body>
+
+</html>

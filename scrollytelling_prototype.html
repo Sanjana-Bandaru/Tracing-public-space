@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollytelling Prototype</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #ffffff;
+            --accent-color: #ff4d4d;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        section {
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        h1,
+        h2 {
+            margin: 0;
+            z-index: 10;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-size: 4rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+        }
+
+        /* Section 1: Hero */
+        #section1 {
+            background-image: url('https://placehold.co/1920x1080/222/fff?text=Background+GIF+Placeholder');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #section1 .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Section 2: Video + Images */
+        #section2 {
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .video-container {
+            width: 80%;
+            max-width: 600px;
+            aspect-ratio: 16/9;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            width: 90%;
+            flex-wrap: wrap;
+        }
+
+        .image-row img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            opacity: 0;
+            /* Initially invisible */
+            border-radius: 8px;
+        }
+
+        /* Sections 3, 4, 5: Detective Board (formerly Grids) */
+        .grid-section {
+            position: relative;
+            background-color: #1a1a1a;
+            /* Slightly lighter bg for contrast */
+            overflow: hidden;
+            /* Keep items contained */
+        }
+
+        .grid-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            /* No more grid display */
+        }
+
+        .grid-item {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            border: 5px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover {
+            z-index: 100 !important;
+            transform: scale(1.1) rotate(0deg) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+        }
+
+        .grid-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 3rem;
+            border-radius: 2px;
+            opacity: 0;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 200;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            max-width: 80%;
+        }
+
+        /* Sections 6-9: Video Backgrounds */
+        .video-bg-section {
+            position: relative;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            /* Dark overlay for readability */
+            z-index: 1;
+        }
+
+        .content-overlay {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Section 1: Hero -->
+    <section id="section1">
+        <div class="overlay"></div>
+        <h1>The Journey Begins</h1>
+    </section>
+
+    <!-- Section 2: Video + Image Row -->
+    <section id="section2">
+        <div class="video-container">
+            <video id="introVideo" muted playsinline poster="https://placehold.co/600x340/333/fff?text=Video+Poster">
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="image-row">
+            <img src="https://placehold.co/150x150/444/fff?text=1" alt="Img 1">
+            <img src="https://placehold.co/150x150/444/fff?text=2" alt="Img 2">
+            <img src="https://placehold.co/150x150/444/fff?text=3" alt="Img 3">
+            <img src="https://placehold.co/150x150/444/fff?text=4" alt="Img 4">
+            <img src="https://placehold.co/150x150/444/fff?text=5" alt="Img 5">
+            <img src="https://placehold.co/150x150/444/fff?text=6" alt="Img 6">
+        </div>
+    </section>
+
+    <!-- Sections 3, 4, 5: Detective Board -->
+    <section id="section3" class="grid-section">
+        <div class="grid-container" id="grid3"></div>
+        <div class="grid-overlay">
+            <h2>The Evidence</h2>
+            <p>Piecing it together...</p>
+        </div>
+    </section>
+
+    <section id="section4" class="grid-section">
+        <div class="grid-container" id="grid4"></div>
+        <div class="grid-overlay">
+            <h2>The Connections</h2>
+            <p>Finding the links...</p>
+        </div>
+    </section>
+
+    <section id="section5" class="grid-section">
+        <div class="grid-container" id="grid5"></div>
+        <div class="grid-overlay">
+            <h2>The Big Picture</h2>
+            <p>It all makes sense.</p>
+        </div>
+    </section>
+
+    <!-- Sections 6-9: Video Backgrounds -->
+    <section id="section6" class="video-bg-section">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+                type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="content-overlay">
+            <h2>Chapter 6</h2>
+            <p>Immersion</p>
+        </div>
+    </section>
+
+    <section id="section7" class="video-bg-section">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+                type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="content-overlay">
+            <h2>Chapter 7</h2>
+            <p>Momentum</p>
+        </div>
+    </section>
+
+    <section id="section8" class="video-bg-section">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+                type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="content-overlay">
+            <h2>Chapter 8</h2>
+            <p>Climax</p>
+        </div>
+    </section>
+
+    <section id="section9" class="video-bg-section">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+                type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        <div class="content-overlay">
+            <h2>Chapter 9</h2>
+            <p>Finale</p>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Section 2 Logic ---
+        const video = document.getElementById('introVideo');
+        let videoPlayed = false;
+
+        // Video plays when section enters
+        ScrollTrigger.create({
+            trigger: "#section2",
+            start: "top center",
+            onEnter: () => {
+                if (!videoPlayed) {
+                    video.play();
+                    videoPlayed = true;
+                }
+            }
+        });
+
+        video.addEventListener('ended', () => {
+            video.pause();
+        });
+
+        // Image Row Animation - Pinned and Scrubbed
+        const section2Timeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#section2",
+                start: "center center", // Start pinning when center of section hits center of viewport
+                end: "+=2000", // Scroll for 2000px to complete the animation
+                pin: true, // Pin the section
+                scrub: 1, // Smooth scrubbing
+                anticipatePin: 1
+            }
+        });
+
+        // Animate images one by one
+        section2Timeline.to(".image-row img", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.5 // Stagger ensures they come in one after another as you scroll
+        });
+
+
+        // --- Detective Board Logic (Sections 3, 4, 5) ---
+        function populateBoard(gridId) {
+            const gridContainer = document.getElementById(gridId);
+            const count = 40; // Reduced count for cleaner "board" look, or keep 64 if dense
+
+            for (let i = 0; i < count; i++) {
+                const div = document.createElement('div');
+                div.className = 'grid-item';
+
+                // Random visual properties
+                const hue = Math.floor(Math.random() * 360);
+                div.style.backgroundColor = `hsl(${hue}, 40%, 40%)`;
+
+                // Random Position (keeping somewhat within bounds)
+                // Using percentages to be responsive
+                const top = Math.random() * 80 + 10; // 10% to 90%
+                const left = Math.random() * 90 + 5; // 5% to 95%
+                const rotation = (Math.random() * 30) - 15; // -15 to +15 deg
+
+                div.style.top = `${top}%`;
+                div.style.left = `${left}%`;
+                div.style.transform = `rotate(${rotation}deg) scale(0.8)`; // Start slightly smaller
+
+                // Random z-index for layering
+                div.style.zIndex = Math.floor(Math.random() * 50);
+
+                // Add some text or "evidence" look
+                // div.innerHTML = `<span style="font-size:10px; color:white; position:absolute; bottom:2px; right:5px;">#${i+1}</span>`;
+
+                gridContainer.appendChild(div);
+            }
+        }
+
+        ['grid3', 'grid4', 'grid5'].forEach(id => populateBoard(id));
+
+        // Animate Detective Board - Pinned and Scrubbed
+        document.querySelectorAll('.grid-section').forEach(section => {
+            const items = section.querySelectorAll('.grid-item');
+            const overlay = section.querySelector('.grid-overlay');
+
+            // Randomize the order of appearance
+            const shuffledItems = Array.from(items).sort(() => 0.5 - Math.random());
+
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: "+=2500", // Longer scroll for more "one by one" feel
+                    pin: true,
+                    scrub: 0.5, // Slightly faster scrub reaction
+                    anticipatePin: 1
+                }
+            });
+
+            // Animate items appearing one by one (or small groups)
+            tl.to(shuffledItems, {
+                opacity: 1,
+                scale: 1, // Scale up to normal
+                duration: 1,
+                stagger: 0.8, // Larger stagger for distinct "one by one" feel
+                ease: "back.out(1.7)" // Pop effect
+            })
+                .to(overlay, {
+                    opacity: 1,
+                    duration: 2
+                });
+        });
+
+        // --- Sections 6-9 Logic ---
+        // Simple parallax/fade for video sections
+        document.querySelectorAll('.video-bg-section').forEach(section => {
+            gsap.from(section.querySelector('.content-overlay'), {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top center",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1
+            });
+        });
+
+    </script>
+</body>
+
+</html>
